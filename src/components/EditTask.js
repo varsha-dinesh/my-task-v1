@@ -32,6 +32,17 @@ function EditTask({ setOpenEdit, task, users, handleDelete, handleFormEdit }) {
     time_zone: Math.abs(new Date().getTimezoneOffset() * 60),
   });
   const calendarRef = useRef(null);
+  const currentMonthStart = new Date(
+    selectedDate.getFullYear(),
+    selectedDate.getMonth(),
+    1
+  );
+  const currentMonthEnd = new Date(
+    selectedDate.getFullYear(),
+    selectedDate.getMonth() + 1,
+    0
+  );
+
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (calendarRef.current && !calendarRef.current.contains(event.target)) {
@@ -64,7 +75,10 @@ function EditTask({ setOpenEdit, task, users, handleDelete, handleFormEdit }) {
     if (month.length < 2) month = "0" + month;
     if (day.length < 2) day = "0" + day;
     if (s === "MMM") {
-      return d.toLocaleString("en-US", { month: "short" });
+      return d.toLocaleString("en-US", { month: "short" }).toUpperCase();
+    }
+    if (s === "dd") {
+      return d.toLocaleDateString("en-US", { weekday: "short" }).slice(0, 2);
     }
     if (s === "/") {
       return [month, day, year].join("/");
@@ -346,6 +360,10 @@ function EditTask({ setOpenEdit, task, users, handleDelete, handleFormEdit }) {
                 formatMonth={(locale, date) => formatDate(date, "MMM")}
                 prevLabel={<LeftArrow />}
                 nextLabel={<RightArrwow />}
+                formatShortWeekday={(locale, date) => formatDate(date, "dd")}
+                showNeighboringMonth={false}
+                locale={{ weekStartsOn: 0 }}
+                calendarType={"US"}
               />
             </div>
           )}

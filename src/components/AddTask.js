@@ -40,6 +40,9 @@ function AddTask() {
   });
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState([]);
+  const currentMonthStart = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+  const currentMonthEnd = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
+
 
   const calendarRef = useRef(null);
 
@@ -113,7 +116,10 @@ function AddTask() {
     if (month.length < 2) month = "0" + month;
     if (day.length < 2) day = "0" + day;
     if (s === "MMM") {
-      return d.toLocaleString("en-US", { month: "short" });
+      return d.toLocaleString("en-US", { month: "short" }).toUpperCase();
+    }
+    if (s === "dd") {
+      return d.toLocaleDateString("en-US", { weekday: "short" }).slice(0, 2);
     }
     if (s === "/") {
       return [month, day, year].join("/");
@@ -292,6 +298,14 @@ function AddTask() {
     return <span style={{ display: "none" }} {...innerProps} />;
   };
 
+  const isPreviousMonthDay = (date) => {
+    // Get the first day of the current month
+    const currentMonthStart = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+
+    // Compare the date's month and year with the current month and year
+    return date.getMonth() < currentMonthStart.getMonth() || date.getFullYear() < currentMonthStart.getFullYear();
+  };
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     let response = async () => {
@@ -339,7 +353,7 @@ function AddTask() {
           method: "put",
           url: `https://stage.api.sloovi.com/task/lead_65b171d46f3945549e3baa997e3fc4c2/${id}?company_id=${credentials.company_id}`,
           headers: {
-            Authorization: "Bearer " + credentials.token,
+            Authorization: "Bearer " + credentials.token    ,
             Accept: "application/json",
             "Content-Type": "application/json",
           },
@@ -383,6 +397,11 @@ function AddTask() {
     if (window.confirm("Are you sure you want to delete this task")) {
       response();
     }
+  };
+
+  const customLocale = {
+    weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    weekdaysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
   };
 
   return (
@@ -454,6 +473,10 @@ function AddTask() {
                   formatMonth={(locale, date) => formatDate(date, "MMM")}
                   prevLabel={<LeftArrow />}
                   nextLabel={<RightArrwow />}
+                  formatShortWeekday={(locale, date) => formatDate(date, 'dd')}
+                  showNeighboringMonth={false}
+                  locale={{weekStartsOn : 0}}
+                  calendarType={'US'}
                 />
               </div>
             )}
