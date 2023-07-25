@@ -33,16 +33,7 @@ function EditTask({ setOpenEdit, task, users, handleDelete, handleFormEdit }) {
     time_zone: Math.abs(new Date().getTimezoneOffset() * 60),
   });
   const calendarRef = useRef(null);
-  const currentMonthStart = new Date(
-    selectedDate.getFullYear(),
-    selectedDate.getMonth(),
-    1
-  );
-  const currentMonthEnd = new Date(
-    selectedDate.getFullYear(),
-    selectedDate.getMonth() + 1,
-    0
-  );
+ 
 
   useEffect(() => {
     const handleOutsideClick = (event) => {

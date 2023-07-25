@@ -44,8 +44,6 @@ function ListTask({ task, users, handleDelete, handleFormEdit }) {
     return false;
   };
 
- 
-
   return (
     <>
       {editTask ? (
@@ -90,17 +88,17 @@ function ListTask({ task, users, handleDelete, handleFormEdit }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 cursor-pointer">
+          <div className="flex items-center gap-1 cursor-pointer">
             <div className="" style={{ display: hover ? "block" : "none" }}>
               <Tooltip content="Edit this task">
-                <i className="" onClick={handleEdit}>
+                <i className="flex items-center justify-center w-7 h-7 hover:bg-gray-200 rounded-full" onClick={handleEdit}>
                   <Edit />
                 </i>
               </Tooltip>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <Tooltip content="Snooze this Task to appear in your Inbox at a later date">
-                <i>
+                <i className="flex items-center justify-center w-7 h-7 hover:bg-gray-200 rounded-full">
                   <Bell />
                 </i>
               </Tooltip>
@@ -111,7 +109,7 @@ function ListTask({ task, users, handleDelete, handleFormEdit }) {
                     : "Mark this task as done"
                 }`}
               >
-                <i onClick={() => setCrossText(!crossText)}>
+                <i onClick={() => setCrossText(!crossText)} className="flex items-center justify-center w-7 h-7 hover:bg-gray-200 rounded-full">
                   {crossText ? (
                     <span>
                       <svg
