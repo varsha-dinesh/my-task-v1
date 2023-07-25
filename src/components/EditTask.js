@@ -12,6 +12,7 @@ import { ReactComponent as LeftArrow } from "../asset/LeftArrow.svg";
 import { ReactComponent as Group } from "../asset/Group 8143.svg";
 import { ReactComponent as Vector } from "../asset/Vector.svg";
 import { ReactComponent as Delete } from "../asset/Delete.svg";
+import { ReactComponent as Time } from "../asset/Time.svg";
 import "./calendar.css";
 
 function EditTask({ setOpenEdit, task, users, handleDelete, handleFormEdit }) {
@@ -149,12 +150,18 @@ function EditTask({ setOpenEdit, task, users, handleDelete, handleFormEdit }) {
       ...baseStyles,
       fontSize: "16px",
     }),
+    menu: (baseStyles) => ({
+      ...baseStyles,
+      border: "1px solid #e5e5e5",
+      boxShadow: "none",
+    }),
 
     menuList: (provided) => ({
       ...provided,
       position: "relative",
       padding: 0,
       zIndex: 9999,
+      margin: "8px 0"
     }),
     option: (provided, state) => ({
       ...provided,
@@ -176,9 +183,10 @@ function EditTask({ setOpenEdit, task, users, handleDelete, handleFormEdit }) {
       ...baseStyles,
       width: "166px",
       height: "30px",
-      border: "1px solid #e5e5e5",
-      position: "relative",
-      paddingLeft: "5px",
+      marginTop: "1px",
+      borderColor: state.isFocused ? "rgba(82, 168, 236, 0.8)" : "#e5e5e5",
+      border: state.isFocused ? "none" : "",
+      outline: state.isFocused ? "none" : "",
     }),
     indicatorSeparator: (baseStyles) => ({
       ...baseStyles,
@@ -225,7 +233,7 @@ function EditTask({ setOpenEdit, task, users, handleDelete, handleFormEdit }) {
       ...baseStyles,
       fontSize: "16px",
       border: "none",
-      paddingLeft: "20px",
+      paddingLeft: "23px",
     }),
     placeholder: (baseStyles) => ({
       ...baseStyles,
@@ -235,7 +243,7 @@ function EditTask({ setOpenEdit, task, users, handleDelete, handleFormEdit }) {
 
   const DropdownIndicator = (props) => (
     <components.DropdownIndicator {...props}>
-      <BiTimeFive />
+      <Time />
     </components.DropdownIndicator>
   );
 
@@ -279,6 +287,20 @@ function EditTask({ setOpenEdit, task, users, handleDelete, handleFormEdit }) {
 
   const IndicatorSeparator = ({ innerProps }) => {
     return <span style={{ display: "none" }} {...innerProps} />;
+  };
+
+  const CustomMenu = (props) => {
+    return (
+      <>
+        <div className="relative">
+          <div className="absolute z-[99999] h-3 w-3 rotate-45 ml-[1.2rem] mt-[6px] border-l border-t border-[#e3e8ee] bg-white"></div>
+
+        </div>
+        <div className="mt-1">
+          <components.Menu {...props}>{props.children}</components.Menu>
+        </div>
+      </>
+    );
   };
 
   const handleFormSubmit = (e) => {
@@ -327,7 +349,7 @@ function EditTask({ setOpenEdit, task, users, handleDelete, handleFormEdit }) {
                   type="text"
                   value={formatingDate(formData.task_date, "/")}
                   onChange={handleDateChange}
-                  className="w-[160px] h-[37px] border rounded border-[#E5E5E5] mt-[1px] text-[16px]  pl-[30px]"
+                  className="w-[160px] h-[38px] border rounded border-[#E5E5E5] mt-[1px] text-[16px]  pl-[30px]"
                   onFocus={() => {
                     setIsOpen(true);
                   }}
@@ -380,6 +402,8 @@ function EditTask({ setOpenEdit, task, users, handleDelete, handleFormEdit }) {
                 Option: CustomOption,
                 DropdownIndicator: CustomDropdownIndicator,
                 IndicatorSeparator,
+                Menu: CustomMenu,
+
               }}
             />
           </div>

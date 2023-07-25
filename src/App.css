@@ -25,7 +25,7 @@ code {
 
 .vector {
   position: relative;
-  transform: translate(-5px, 1px)
+  transform: translate(-5px, 2px)
   
 }
 
@@ -39,8 +39,7 @@ code {
 }
 
 .react-select-1__dropdown-indicator:hover {
-  /* Set the styles to their default values */
-  background: transparent; /* Set the background to transparent or the desired background color */
+  background: transparent; 
   color: #262E39 !important; 
 }
 
